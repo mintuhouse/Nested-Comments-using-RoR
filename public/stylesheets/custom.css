@@ -20,7 +20,7 @@ section {
   font-size: 120%;
   padding: 20px;
   background: #fff;
-}
+v}
 
 section h1 {
   font-size: 200%;
@@ -204,19 +204,38 @@ table.microposts tr {
 
 table.microposts tr td.gravatar {
   border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc; 
   vertical-align: top;
   width: 50px;
 }
 
 table.microposts tr td.micropost {
   border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc; 
   vertical-align: top;
   padding-top: 10px;
+}
+
+table.microposts tr td.modify{
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc; 
 }
 
 table.microposts tr td.micropost span.timestamp {
   display: block;
   font-size: 85%;
+  color: #666;
+}
+
+table.microposts tr td.micropost span.view {
+  font-size: 90%;
+  display: block;
+  color: #666;
+}
+
+table.microposts tr td.micropost span.delete {
+  font-size: 90%;
+  display: block;
   color: #666;
 }
 
@@ -241,6 +260,11 @@ form.new_micropost {
 }
 
 form.new_micropost textarea {
-  height: 4em;
+  width: 95%;
+  height: 153px;
   margin-bottom: 0;
+}
+
+div#enable_texteditor input{
+  float: right;
 }

@@ -12,6 +12,11 @@ class MicropostsController < ApplicationController
       render 'pages/home'
     end
   end
+  
+  def show
+    @micropost = Micropost.find(params[:id])
+    @title = "#{@micropost.user.name} | Post"
+  end
 
   def destroy
     @micropost.destroy

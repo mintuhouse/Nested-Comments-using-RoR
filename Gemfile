@@ -10,6 +10,7 @@ gem 'gravatar_image_tag'
 gem 'will_paginate','3.0.pre2'
 gem 'ckeditor'
 gem "jquery-rails"
+gem "sanitize"
 	
 
 group :development do

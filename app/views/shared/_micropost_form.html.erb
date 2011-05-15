@@ -1,9 +1,19 @@
 <%= form_for @micropost do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
   <div class="field">
-    <%= f.text_area :content %>
+     <!-- <% toolbar = "[[ 'Source', '-', 'Bold', 'Italic', 'Underline', 'Strike','-','Link' ]]"; %>
+      <%= toolbar %>
+      <%= f.cktext_area :content , 
+                      :toolbar => @toolbar, 
+                      :class => 'micropost_form',
+                      :width=>'100%', :height=>'100px', :rows => '5'%> -->
+      <%= f.text_area :content , :class => 'micropost_editor', :rows => '5', :height => '200px' %>
   </div>
   <div class="actions">
+    <div id="enable_texteditor">
+        <input type="button" value="Enable Editor" onClick="enable_texteditor();"/>
+        <input type="button" style="display:none;" value="Disable Editor" onClick="disable_texteditor();"/>
+     </div>
     <%= f.submit "Submit" %>
   </div>
 <% end %>

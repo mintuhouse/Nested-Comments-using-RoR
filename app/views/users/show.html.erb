@@ -8,7 +8,7 @@
       <%= render 'follow_form' if signed_in? %>
       <% unless @user.microposts.empty? %>
         <table class="microposts" summary="User microposts">
-          <%= render @microposts %>
+          <%= render :partial => 'shared/feed_item', :collection => @microposts, :locals => {:source => 'profile'} %>
         </table>
         <%= will_paginate @microposts %>
       <% end %>

@@ -13,5 +13,9 @@ module ApplicationHelper
 	def logo
     image_tag("logo.png", :alt => "Sample App", :class => "round")
   end
+  
+  def home?
+    ((controller_name == 'pages') && (action_name == 'home')) 
+  end
 end
 

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110512043827
+# Schema version: 20110515180354
 #
 # Table name: microposts
 #
@@ -8,34 +8,51 @@
 #  user_id    :integer
 #  created_at :datetime
 #  updated_at :datetime
+#  parent_id  :integer         default(0)
 #
 
 class Micropost < ActiveRecord::Base
-  attr_accessible :content
+  
+  attr_accessible :content, :parent_id
 
   belongs_to :user
-
-  validates :content, :presence => true, :length => { :maximum => 140 }
+  belongs_to :parent, :class_name => "Micropost"
+  
+  validates :parent_id, :presence => true
+  validates :content, :presence => true
+  validate  :valid_size
   validates :user_id, :presence => true
+  
+  has_many  :microposts, :foreign_key => "parent_id",
+                         :dependent => :destroy
+  has_many  :comments, :through => :microposts, 
+                       :source => :parent
 
-  default_scope :order => 'microposts.created_at DESC'
+  #default_scope :order => 'microposts.created_at DESC'
   
   scope :from_users_followed_by, lambda { |user| followed_by(user) }
-
   
+  scope :posts, where(:parent_id => 0).order('microposts.created_at DESC')
+  
+  scope :comments, lambda{ |micropost| comments_of(micropost)}
 
-    # Return an SQL condition for users followed by the given user.
-    # We include the user's own id as well.
     def self.followed_by(user)
-      #followed_ids = user.following.map(&:id).join(", ")
       followed_ids = %(SELECT followed_id FROM relationships
                        WHERE follower_id = :user_id)
       where("user_id IN (#{followed_ids}) OR user_id = :user_id",
-            { :user_id => user })
-    end
+            { :user_id => user.id })
+    end    
+    #def self.from_users_followed_by(user)
+    #  followed_ids = user.following.map(&:id).join(", ")
+    #  where("user_id IN (#{followed_ids}) OR user_id = ?", user)
+    #end
     
-  #def self.from_users_followed_by(user)
-  #  followed_ids = user.following.map(&:id).join(", ")
-  #  where("user_id IN (#{followed_ids}) OR user_id = ?", user)
-  #end
+    def self.comments_of(micropost)
+      where("parent_id = :micropost_id ",{:micropost_id => self.id})
+    end
+  private
+    def valid_size
+      errors.add(:content, "Content can't be of size greater than 140") if
+        Sanitize.clean(self.content).length > 140
+    end
 end

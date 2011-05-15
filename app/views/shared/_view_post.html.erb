@@ -1,28 +1,17 @@
 <tr>
-  <% if source != 'profile'%>
     <td class="gravatar">
       <%= link_to gravatar_for(feed_item.user), feed_item.user %>
     </td>
-  <% end %>
   <td class="micropost">
-    <% if source != 'profile'%>
       <span class="user">
         <%= link_to feed_item.user.name, feed_item.user %>
       </span>
-    <% end %>
       <span class="content"><%= raw feed_item.content %></span>
-    <% if source=='feed' %>
-    <% end %>
       <span class="timestamp">
         Posted <%= time_ago_in_words(feed_item.created_at) %> ago.
       </span>
   </td>
-  <td class="modify">  
-  <% if source!='micropost' %>
-      <span class="view">
-        <%= link_to "View",  feed_item%> 
-      </span>
-  <% end %>
+  <td class="modify">
   <% if current_user?(feed_item.user) %>
       <span class="delete">
         <%= link_to "delete", feed_item, :method => :delete,
@@ -32,3 +21,6 @@
   <% end %>
   </td>
 </tr>
+<% comments.each do |p| %>
+  <%= render :partial => 'shared/view_post', :locals => {:feed_item => p, :comments => p.comments} %>
+<% end %>
