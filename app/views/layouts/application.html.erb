@@ -5,9 +5,10 @@
     <%= csrf_meta_tag %>
     <%= render 'layouts/stylesheets' %>
     <%= javascript_include_tag :defaults %>
-    <%= javascript_include_tag :ckeditor if home?%>
-    <%= javascript_include_tag 'ckeditor/adapters/jquery.js' if home?%>
-    <%= javascript_include_tag 'texteditor.js' if home?%>    
+    <%= javascript_include_tag :ckeditor if home? or show_post?%>
+    <%= javascript_include_tag 'ckeditor/adapters/jquery.js' if home? or show_post?%>
+    <%= javascript_include_tag 'texteditor.js' if home? or show_post?%>    
+    <%= javascript_include_tag 'comments.js' if show_post? %>
 </head>
 <body>
     <div class="container">

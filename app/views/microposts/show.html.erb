@@ -1,3 +1,3 @@
 <table class="microposts" summary="Micropost">
-  <%= render :partial => 'shared/view_post', :locals => {:feed_item => @micropost, :comments => @micropost.comments} %>
+  <%= render :partial => 'shared/view_post', :locals => {:feed_item => @micropost, :depth => 0} %>
 </table>

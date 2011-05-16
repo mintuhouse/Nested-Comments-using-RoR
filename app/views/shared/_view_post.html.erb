@@ -1,4 +1,4 @@
-<tr>
+<tr id="comment_<%= feed_item.id %>" class="depth_<%= depth %>">
     <td class="gravatar">
       <%= link_to gravatar_for(feed_item.user), feed_item.user %>
     </td>
@@ -18,9 +18,26 @@
                                          :confirm => "You sure?",
                                          :title => feed_item.content %> 
       </span>
-  <% end %>
+  <% end %>  
+  <% if depth < 3 %>
+      <span class="comment">
+        <div id="enable_comment">
+          <input type="button" value="Comment" onClick="show_comment_form(<%= feed_item.id %>);"/>
+          <input type="button" style="display:none;" value="HideBox " onClick="hide_comment_form(<%= feed_item.id %>);"/>
+       </div>
+      </span>
   </td>
 </tr>
-<% comments.each do |p| %>
-  <%= render :partial => 'shared/view_post', :locals => {:feed_item => p, :comments => p.comments} %>
+  <% end %>
+<% if depth < 3 %>
+<tr id="comment_form_<%= feed_item.id %>" class="comment_box">
+  <td colspan="3">
+      <span class="comment_form">        
+        <%= render :partial => 'shared/comment_form', :locals => {:parent => feed_item.id} %>
+      </span>
+  </td>
+</tr>
+<% end %>
+<% comments_of(feed_item).each do |p| %>
+  <%= render :partial => 'shared/view_post', :locals => {:feed_item => p, :depth => depth+1} %>
 <% end %>

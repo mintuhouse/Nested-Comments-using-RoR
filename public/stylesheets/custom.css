@@ -260,11 +260,50 @@ form.new_micropost {
 }
 
 form.new_micropost textarea {
-  width: 95%;
+  width: 90%;
   height: 153px;
   margin-bottom: 0;
 }
 
 div#enable_texteditor input{
   float: right;
+}
+
+span.comment_form textarea.micropost_editor{
+    margin-left: 5%;
+    width: 90%;
+    margin-bottom: 0;
+}
+
+tr.comment_box{
+    display:none;
+}
+
+#cke_micropost_content{
+    margin-left: 5%;
+    padding : 0;
+    /*max-height: 200px;*/
+}
+
+tr.comment_box{
+    background-color:#fafafa;
+}
+
+tr.depth_0{
+    background-color:#b5bcf9;
+}
+
+tr.depth_1{
+    padding-left: 20px;
+    background-color:#cac0fa;
+}
+
+tr.depth_2{
+    padding-left: 20px;
+    background-color:#d2d5fb;
+}
+
+tr.depth_3{
+    padding-left: 20px;
+    background-color:#e8eafc;
 }

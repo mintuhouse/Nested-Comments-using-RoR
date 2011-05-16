@@ -12,14 +12,13 @@
 #
 
 class Micropost < ActiveRecord::Base
-  
   attr_accessible :content, :parent_id
 
   belongs_to :user
   belongs_to :parent, :class_name => "Micropost"
   
   validates :parent_id, :presence => true
-  validates :content, :presence => true
+  validates :content, :presence => true, :length => {:minimum => 1}
   validate  :valid_size
   validates :user_id, :presence => true
   
@@ -28,13 +27,24 @@ class Micropost < ActiveRecord::Base
   has_many  :comments, :through => :microposts, 
                        :source => :parent
 
-  #default_scope :order => 'microposts.created_at DESC'
+  default_scope :order => 'microposts.created_at DESC'
   
   scope :from_users_followed_by, lambda { |user| followed_by(user) }
   
-  scope :posts, where(:parent_id => 0).order('microposts.created_at DESC')
+  scope :posts, where(:parent_id => 0)
   
-  scope :comments, lambda{ |micropost| comments_of(micropost)}
+  def depth
+    i=0; 
+    p_id = self.parent_id
+    while(p_id != 0)
+      p_id = Micropost.find(p_id).parent_id;
+      i+=1
+    end
+    errors.add(:id, "Nested comment of depth > 3") if i > 3
+    return i
+  end
+  
+  #scope :comments, where("id IN (SELECT micropost.id FROM microposts INNER JOIN microposts AS comments ON microposts.id = comments.parent_id WHERE comments.parent_id = "+self.id.to_s+")")
 
     def self.followed_by(user)
       followed_ids = %(SELECT followed_id FROM relationships

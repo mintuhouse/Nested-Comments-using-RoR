@@ -1,0 +1,15 @@
+<%= form_for Micropost.new do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>
+  <div class="field">
+      <%= f.hidden_field :parent_id , :value => parent %>
+      <%= f.text_area :content , :class => 'micropost_editor' %>
+  </div>
+  <div class="actions">
+    <div id="enable_texteditor">
+        <input type="button" value="Enable Editor" onclick="enable_texteditor(<%= parent %>);"/>
+        <input type="button" style="display:none;" value="Disable Editor" onclick="disable_texteditor(<%= parent %>);"/>
+     </div>
+      <%= f.submit "Submit" %>
+  </div>
+<% end %>
+

@@ -1,9 +1,16 @@
 <% if signed_in? %>
   <table class="front" summary="For signed-in users">
-    <tr>
+    <tr id="comment_form_0">
       <td class="main">
         <h1 class="micropost">What's up?</h1>
-        <%= render 'shared/micropost_form' %>
+        <%if(params[:micropost])
+          if(params[:micropost][:parent_id])
+              parent = params[:micropost][:parent_id]; 
+           else 
+              parent = 0
+           end  
+           end%>
+        <%= render :partial => 'shared/micropost_form' , :locals => {:parent => parent} %>
         <%= render 'shared/feed' %>
       </td>
       <td class="sidebar round">

@@ -33,18 +33,18 @@ end
 
 def make_microposts
   (1..6).each do |iter|
-    User.all(:limit => 10).each do |user|
+    User.all(:limit => 20).each do |user|
       2.times do
         content = Faker::Lorem.sentence(5)
         user.microposts.create!(:content => content)
       end
     end
   end
-  Micropost.all.each do |micropost|
-    2.times do
+  (1..3000).each do |i|
       content = Faker::Lorem.sentence(5)
-      micropost.user.microposts.create!(:content => content, :parent_id => micropost.id)
-    end
+      c = User.count
+      User.first(:offset => rand(User.count)).microposts.create!(:content => content, 
+                                :parent_id => Micropost.first(:offset => rand(Micropost.count)).id)
   end
 end
 
@@ -52,8 +52,19 @@ def make_relationships
   users = User.all
   user  = users.first
   following = users[1..50]
-  followers = users[3..40]  
+  followers = users[3..40]
   following.each { |followed| user.follow!(followed) }
-  followers.each { |follower| follower.follow!(user) }
+  followers.each { |follower| follower.follow!(user) }  
+  c = User.count
+  (1..500).each do |i|
+    followed = User.first(:offset => rand(c))
+    follower = User.first(:offset => rand(c))
+    if(followed!=follower)
+      begin
+        follower.follow!(followed)
+      rescue
+      end
+    end
+  end
 end
 

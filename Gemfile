@@ -11,6 +11,7 @@ gem 'will_paginate','3.0.pre2'
 gem 'ckeditor'
 gem "jquery-rails"
 gem "sanitize"
+gem "ruby-debug"
 	
 
 group :development do

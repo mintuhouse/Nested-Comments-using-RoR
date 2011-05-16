@@ -4,6 +4,7 @@ class AddParentIdToMicroposts < ActiveRecord::Migration
       m.integer :parent_id, :default => 0
     end
     #Micropost.update_all ["parent_id = ?", 0]
+    add_index :microposts, :parent_id
   end
 
   def self.down

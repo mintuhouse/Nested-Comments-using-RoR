@@ -6,7 +6,7 @@ class MicropostsController < ApplicationController
     @micropost = current_user.microposts.build(params[:micropost])
     if @micropost.save
       flash[:success] = "Micropost created!"
-      redirect_to root_path
+      redirect_back_or root_path
     else
       @feed_items = []
       render 'pages/home'
@@ -16,11 +16,17 @@ class MicropostsController < ApplicationController
   def show
     @micropost = Micropost.find(params[:id])
     @title = "#{@micropost.user.name} | Post"
+    store_location
   end
 
   def destroy
+    parent = @micropost.parent_id
     @micropost.destroy
-    redirect_back_or root_path
+    if parent != 0 
+      redirect_back_or root_path
+    else
+      redirect_to root_path
+    end
   end
 
   private

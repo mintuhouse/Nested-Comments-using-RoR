@@ -1,0 +1,7 @@
+Paginate nested comments -- I used a recursive call
+   One solution could be build a big stack initially and then pagninate them and display
+
+Associating a table with itself - ambigious column name
+   Used sql alias to resolve this issue for this time.
+ 
+Displaying the nested comments
